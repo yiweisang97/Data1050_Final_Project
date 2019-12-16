@@ -4,6 +4,7 @@ import requests
 import datetime
 import pymongo
 import utils
+import string
 #import time
 #import sched
 #from io import StringIO
@@ -14,6 +15,9 @@ import utils
 
 logger = logging.Logger(__name__)
 utils.setup_logger(logger, 'data.log')
+
+def process_location(city):
+    return city.replace(' ', '+').lower()
 
 def process_date_historical(date_year, date_month, date_day, enddate_year, enddate_month, enddate_day):
     '''
@@ -152,9 +156,12 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     #################### Testing ####################
-    location = 'providence'
-    dates = process_date_historical(2019, 2, 27, 2019, 3, 5)
+    location = 'New York'
+    query_location = process_location(location)
+    dates = process_date_historical(2019, 7, 9, 2019, 10, 5)
     df_day, df_hourly = load_historical_data(location, dates)
+    #df_day.to_csv('data/daily_weather.csv')
+    #df_hourly.to_csv('data/hourly_weather.csv')
     #print(df_day.head())
     #print(df_hourly.head())
 
